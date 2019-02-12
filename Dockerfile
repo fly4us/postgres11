@@ -167,7 +167,8 @@ ENV PGDATA /var/lib/postgresql/data
 RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 777 "$PGDATA" # this 777 will be replaced by 700 at runtime (allows semi-arbitrary "--user" values)
 
 RUN set -x \
-	&& apt-get install -y make tar gcc libssl-dev zlib1g-dev \
+        && apt-get update \
+	&& apt-get install -y build-essential tar libssl-dev zlib1g-dev \
 	&& wget -q -O pg_repack.tar.gz "https://github.com/reorg/pg_repack/archive/ver_1.4.4.tar.gz" \
 	&& wget -q -O pgpool.tar.gz "http://www.pgpool.net/download.php?f=pgpool-II-4.0.2.tar.gz" \
 	&& tar zxvf pg_repack.tar.gz && rm pg_repack.tar.gz \
@@ -183,9 +184,9 @@ RUN set -x \
 	&& cd src/sql/pgpool-recovery \
 	&& make \
 	&& make install \
-  && cd ../../../.. \
-  && rm -rf pgpool-II-* \
-	&& apt-get remove --auto-remove -y make tar gcc libssl-dev zlib1g-dev
+        && cd ../../../.. \
+        && rm -rf pgpool-II-* \
+	&& apt-get remove --auto-remove -y build-essential tar libssl-dev zlib1g-dev
 
 VOLUME /var/lib/postgresql/data
 
