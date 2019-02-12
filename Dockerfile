@@ -186,7 +186,7 @@ RUN set -x \
 	&& make install \
         && cd ../../../.. \
         && rm -rf pgpool-II-* \
-	&& apt-get purge -y --auto-remove ca-certificates wget postgresql-server-dev-11 \
+	&& apt-get purge -y --auto-remove ca-certificates wget postgresql-server-dev-11 make gcc \
 	&& rm -rf /var/lib/apt/lists/*
 
 VOLUME /var/lib/postgresql/data
