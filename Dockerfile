@@ -186,7 +186,7 @@ RUN set -x \
 	&& make install \
         && cd ../../../.. \
         && rm -rf pgpool-II-* \
-	&& apt-get purge --auto-remove -y wget build-essential tar libssl-dev zlib1g-dev postgresql-server-dev-11
+	&& apt-get purge --auto-remove -y wget build-essential tar libssl-dev zlib1g-dev
 
 VOLUME /var/lib/postgresql/data
 
