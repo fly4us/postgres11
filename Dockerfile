@@ -168,7 +168,7 @@ RUN mkdir -p "$PGDATA" && chown -R postgres:postgres "$PGDATA" && chmod 777 "$PG
 
 RUN set -x \
         && apt-get update \
-	&& apt-get install -y wget build-essential tar libssl-dev zlib1g-dev postgresql-server-dev-11 \
+	&& apt-get install -y wget tar make gcc libssl-dev zlib1g-dev postgresql-server-dev-11 \
 	&& wget -q -O pg_repack.tar.gz "https://github.com/reorg/pg_repack/archive/ver_1.4.4.tar.gz" \
 	&& wget -q -O pgpool.tar.gz "http://www.pgpool.net/download.php?f=pgpool-II-4.0.2.tar.gz" \
 	&& tar zxvf pg_repack.tar.gz && rm pg_repack.tar.gz \
@@ -186,7 +186,8 @@ RUN set -x \
 	&& make install \
         && cd ../../../.. \
         && rm -rf pgpool-II-* \
-	&& apt-get purge --auto-remove -y wget build-essential tar libssl-dev zlib1g-dev
+	&& apt-get purge --auto-remove -y wget tar make gcc libssl-dev zlib1g-dev postgresql-server-dev-11 \
+	&& rm -rf /var/lib/apt/lists/*
 
 VOLUME /var/lib/postgresql/data
 
