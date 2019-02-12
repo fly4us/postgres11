@@ -186,7 +186,6 @@ RUN set -x \
 	&& make install \
         && cd ../../../.. \
         && rm -rf pgpool-II-* \
-	&& apt-get purge --auto-remove -y wget tar make gcc libssl-dev zlib1g-dev postgresql-server-dev-11 \
 	&& rm -rf /var/lib/apt/lists/*
 
 VOLUME /var/lib/postgresql/data
