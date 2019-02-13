@@ -199,7 +199,6 @@ RUN touch /etc/repmgr.conf; \
 ENV PRIMARY_NAME=localhost
  
 COPY scripts/*.sh /docker-entrypoint-initdb.d/
-RUN chmod 777 /docker-entrypoint-initdb.d/*.sh
 
 VOLUME /var/lib/postgresql/data
 
