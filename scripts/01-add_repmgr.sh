@@ -17,8 +17,8 @@ fi
 echo "CREATE ROLE $REPMGR_USER LOGIN SUPERUSER REPLICATION PASSWORD '$REPMGR_PASSWORD'" | psql -U "$POSTGRES_USER"
 createdb -U "$POSTGRES_USER" -O "$REPMGR_USER" "$REPMGR_DB"
  
-echo "host replication $REPMGR_USER all md5" >> "$PGDATA/pg_hba.conf"
-echo "host all $REPMGR_USER all md5" >> "$PGDATA/pg_hba.conf"
+echo "host replication $REPMGR_USER all trust" >> "$PGDATA/pg_hba.conf"
+echo "host all $REPMGR_USER all trust" >> "$PGDATA/pg_hba.conf"
  
 sed -i "s/#*\(shared_preload_libraries\).*/\1='repmgr'/;" ${PGDATA}/postgresql.conf
  
