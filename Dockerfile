@@ -190,7 +190,8 @@ RUN set -x \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -y; \
-    apt-get install -y postgresql-$PG_MAJOR-repmgr repmgr-common=4.2\*
+    apt-get install -y postgresql-$PG_MAJOR-repmgr repmgr-common=4.2\* \
+    && rm -rf /var/lib/apt/lists/*
  
 RUN touch /etc/repmgr.conf; \
     chown postgres:postgres /etc/repmgr.conf
