@@ -2,7 +2,7 @@
  
 set -e
 
-if [ -s /etc/repmgr.conf ]; then
+if [ -s ${PGDATA}/repmgr.conf ]; then
     return
 fi
 
@@ -27,7 +27,7 @@ if [ -z "$NODE_HOST" ]; then
 	NODE_HOST=$(hostname -f)
 fi
 
-cat<<EOF > /etc/repmgr.conf
+cat<<EOF > ${PGDATA}/repmgr.conf
 node_id=${my_node}
 node_name=$(hostname -s | sed 's/\W\{1,\}/_/g;')
 conninfo=host='$NODE_HOST' user='$REPMGR_USER' dbname='$REPMGR_DB' connect_timeout=5
