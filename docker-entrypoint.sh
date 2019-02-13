@@ -30,7 +30,8 @@ fi
 
 # allow the container to be started with `--user`
 if [ "$1" = 'postgres' ] && [ "$(id -u)" = '0' ]; then
-	mkdir -p "$PGDATA"
+	mkdir -p "
+	"
 	chown -R postgres "$PGDATA"
 	chmod 700 "$PGDATA"
 
@@ -115,6 +116,8 @@ if [ "$1" = 'postgres' ]; then
 			echo
 			echo "host all all all $authMethod"
 		} >> "$PGDATA/pg_hba.conf"
+
+		cp /etc/postgresql/11/main/postgresql.conf $PGDATA/postgresql.conf
 
 		# internal start of server in order to allow set-up using psql-client
 		# does not listen on external TCP/IP and waits until start finishes
