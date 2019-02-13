@@ -1,3 +1,3 @@
 #!/bin/bash
  
-repmgrd -v
+repmgrd -f ${PGDATA}/repmgr.conf -v
