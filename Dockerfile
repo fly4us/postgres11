@@ -189,6 +189,16 @@ RUN set -x \
 	&& apt-get purge -y --auto-remove ca-certificates wget make gcc libssl-dev zlib1g-dev postgresql-server-dev-11 \
 	&& rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update -y; \
+    apt-get install -y postgresql-$PG_MAJOR-repmgr repmgr-common=4.2\*
+ 
+RUN touch /etc/repmgr.conf; \
+    chown postgres:postgres /etc/repmgr.conf
+ 
+ENV PRIMARY_NAME=localhost
+ 
+COPY scripts/*.sh /docker-entrypoint-initdb.d/
+
 VOLUME /var/lib/postgresql/data
 
 COPY docker-entrypoint.sh /usr/local/bin/
