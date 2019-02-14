@@ -11,7 +11,6 @@ echo '~~ 02: repmgr conf' >&2
 PGHOST=${PRIMARY_NODE}
  
 if ! [ -e ~/.pgpass ]; then
-	mkdir ~
 	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > ~/.pgpass
 	chmod go-rwx ~/.pgpass
 fi
