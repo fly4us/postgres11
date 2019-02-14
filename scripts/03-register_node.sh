@@ -18,7 +18,7 @@ if [ -n "$WITNESS" ]; then
 	return
 fi
  
-my_node=$(grep node_id /etc/repmgr.conf | cut -d= -f 2)
+my_node=$(grep node_id ${PGDATA}/repmgr.conf | cut -d= -f 2)
 is_reg=$(psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM repmgr.nodes WHERE node_id=${my_node}")
  
 if [ "${is_reg}" != "1" ] && [ ${my_node} -gt 1 ]; then
