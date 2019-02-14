@@ -1,14 +1,15 @@
 #!/bin/bash
  
 set -ex
-
+unset PGPASSWORD 
+    
 PGHOST=${PRIMARY_NODE}
  
 installed=$(psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM pg_tables WHERE tablename='nodes'")
  
 if [ "${installed}" != "1" ]; then
     echo '~~ 03: registering as primary' >&2
-    unset PGPASSWORD repmgr -f ${PGDATA}/repmgr.conf primary register
+    repmgr -f ${PGDATA}/repmgr.conf primary register
     return
 fi
 
