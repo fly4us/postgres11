@@ -13,7 +13,6 @@ PGHOST=${PRIMARY_NODE}
 if ! [ -e ~/.pgpass ]; then
 	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > ~/.pgpass
 	chmod go-rwx ~/.pgpass
-	export PGPASSFILE=~/.pgpass
 fi
 
 installed=$(psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM pg_tables WHERE tablename='nodes'")
