@@ -33,6 +33,8 @@ node_name=$(hostname -s | sed 's/\W\{1,\}/_/g;')
 conninfo=host='$NODE_HOST' user='$REPMGR_USER' dbname='$REPMGR_DB' connect_timeout=5'
 data_directory=${PGDATA}
 
+passfile=$HOME/.pgpass
+
 log_level=INFO
 log_facility=STDERR
 log_status_interval=300
