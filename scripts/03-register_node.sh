@@ -2,6 +2,9 @@
  
 set -ex
 
+export PGPASSFILE=~/.pgpass
+echo $PGPASSFILE
+
 PGHOST=${PRIMARY_NODE}
  
 installed=$(psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM pg_tables WHERE tablename='nodes'")
