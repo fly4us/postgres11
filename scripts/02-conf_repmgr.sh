@@ -3,7 +3,7 @@
 set -e
 
 if [ -s ${PGDATA}/repmgr.conf ]; then
-    return
+    exit 0
 fi
 
 echo '~~ 02: repmgr conf' >&2
