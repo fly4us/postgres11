@@ -8,7 +8,7 @@ installed=$(psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 F
  
 if [ "${installed}" != "1" ]; then
     echo '~~ 03: registering as primary' >&2
-    env PGPASSFILE=/var/lib/postgresql/.pgpass repmgr -f ${PGDATA}/repmgr.conf --verbose primary register
+    repmgr -f ${PGDATA}/repmgr.conf primary register
     return
 fi
 
