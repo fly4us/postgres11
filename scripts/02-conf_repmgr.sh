@@ -10,9 +10,9 @@ echo '~~ 02: repmgr conf' >&2
  
 PGHOST=${PRIMARY_NODE}
  
-if ! [ -e ~/.pgpass ]; then
-	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > ~/.pgpass
-	chmod go-rwx ~/.pgpass
+if ! [ -e ${PGDATA}/.pgpass ]; then
+	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > ${PGDATA}/.pgpass
+	chmod go-rwx ${PGDATA}/.pgpass
 fi
 
 installed=$(psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM pg_tables WHERE tablename='nodes'")
@@ -33,7 +33,7 @@ node_name=$(hostname -s | sed 's/\W\{1,\}/_/g;')
 conninfo=host='$NODE_HOST' user='$REPMGR_USER' dbname='$REPMGR_DB' connect_timeout=5'
 data_directory=${PGDATA}
 
-passfile=$HOME/.pgpass
+passfile=${PGDATA}/.pgpass
 
 log_level=INFO
 log_facility=STDERR
