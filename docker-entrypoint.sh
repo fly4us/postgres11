@@ -30,8 +30,7 @@ fi
 
 # allow the container to be started with `--user`
 if [ "$1" = 'postgres' ] && [ "$(id -u)" = '0' ]; then
-	mkdir -p "
-	"
+        mkdir -p "$PGDATA"
 	chown -R postgres "$PGDATA"
 	chmod 700 "$PGDATA"
 
