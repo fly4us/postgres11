@@ -3,7 +3,7 @@
 set -e
  
 if [ $(grep -c "replication $REPMGR_USER" ${PGDATA}/pg_hba.conf) -gt 0 ]; then
-    return
+    exit 0
 fi
  
 echo '~~ 01: add repmgr' >&2
