@@ -172,12 +172,9 @@ if [ "$1" = 'postgres' ]; then
 	fi
 fi
 
-if [ "$1" = postgres ]; then
-	echo "~~ starting PostgreSQL+repmgr..." >&2
-	# TODO maybe we should use pg_ctl here (this way the user can pass commandline arguments to postgres though)
-	"$@" &
-	sleep 1	
-	env -u PGPASSWORD PGPASSFILE=/etc/postgresql/11/main/.pgpass repmgrd -f /etc/postgresql/11/main/repmgr.conf -v
-else 
-	exec "$@"
-fi
+echo "~~ starting PostgreSQL+repmgr..." >&2
+pg_ctl -D "$PGDATA" -w start
+env -u PGPASSWORD PGPASSFILE=/etc/postgresql/11/main/.pgpass repmgrd -f /etc/postgresql/11/main/repmgr.conf -v
+pg_ctl -D "$PGDATA" -m fast -w stop
+
+exec "$@"
