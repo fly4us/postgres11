@@ -18,7 +18,7 @@ if [ -n "$WITNESS" ]; then
 	exit 0
 fi
  
-my_node=$(grep node_id ~/repmgr.conf | cut -d= -f 2)
+my_node=$(grep node_id /etc/postgresql/11/main/repmgr.conf | cut -d= -f 2)
 is_reg=$(env -u PGPASSWORD PGPASSFILE=/etc/postgresql/11/main/.pgpass psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM repmgr.nodes WHERE node_id=${my_node}")
  
 if [ "${is_reg}" != "1" ] && [ ${my_node} -gt 1 ]; then
