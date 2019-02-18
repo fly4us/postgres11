@@ -2,7 +2,7 @@
  
 set -e
 
-if [ -s ~/repmgr.conf ]; then
+if [ -s /etc/postgresql/11/main/repmgr.conf ]; then
     exit 0
 fi
 
@@ -10,9 +10,9 @@ echo '~~ 02: repmgr conf' >&2
  
 PGHOST=${PRIMARY_NODE}
  
-if ! [ -e ~/.pgpass ]; then
-	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > ~/.pgpass
-	chmod go-rwx ~/.pgpass
+if ! [ -e /etc/postgresql/11/main/.pgpass ]; then
+	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > /etc/postgresql/11/main/.pgpass
+	chmod go-rwx /etc/postgresql/11/main/.pgpass
 fi
 
 installed=$(env -u PGPASSWORD psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM pg_tables WHERE tablename='nodes'")
@@ -27,7 +27,7 @@ if [ -z "$NODE_HOST" ]; then
 	NODE_HOST=$(hostname -f)
 fi
 
-cat<<EOF > ~/repmgr.conf
+cat<<EOF > /etc/postgresql/11/main/repmgr.conf
 node_id=${my_node}
 node_name=$(hostname -s | sed 's/\W\{1,\}/_/g;')
 conninfo=host='$NODE_HOST' user='$REPMGR_USER' dbname='$REPMGR_DB' connect_timeout=5'
