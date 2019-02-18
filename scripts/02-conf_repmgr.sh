@@ -2,7 +2,7 @@
  
 set -e
 
-if [ -s /etc/repmgr.conf ]; then
+if [ -s ~/repmgr.conf ]; then
     exit 0
 fi
 
@@ -10,16 +10,16 @@ echo '~~ 02: repmgr conf' >&2
  
 PGHOST=${PRIMARY_NODE}
  
-if ! [ -e ${PGDATA}/.pgpass ]; then
-	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > ${PGDATA}/.pgpass
-	chmod go-rwx ${PGDATA}/.pgpass
+if ! [ -e ~/.pgpass ]; then
+	echo "*:5432:*:$REPMGR_USER:$REPMGR_PASSWORD" > ~/.pgpass
+	chmod go-rwx ~/.pgpass
 fi
 
-installed=$(env -u PGPASSWORD PGPASSFILE=${PGDATA}/.pgpass psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM pg_tables WHERE tablename='nodes'")
+installed=$(env -u PGPASSWORD psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c "SELECT 1 FROM pg_tables WHERE tablename='nodes'")
 my_node=1
  
 if [ "${installed}" == "1" ]; then
-    my_node=$(env -u PGPASSWORD PGPASSFILE=${PGDATA}/.pgpass psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c 'SELECT max(node_id)+1 FROM repmgr.nodes')
+    my_node=$(env -u PGPASSWORD psql -qAt -h "$PGHOST" -U "$REPMGR_USER" "$REPMGR_DB" -c 'SELECT max(node_id)+1 FROM repmgr.nodes')
 fi
 
 # allow the user to specify the hostname/IP for this node
@@ -27,13 +27,11 @@ if [ -z "$NODE_HOST" ]; then
 	NODE_HOST=$(hostname -f)
 fi
 
-cat<<EOF > /etc/repmgr.conf
+cat<<EOF > ~/repmgr.conf
 node_id=${my_node}
 node_name=$(hostname -s | sed 's/\W\{1,\}/_/g;')
 conninfo=host='$NODE_HOST' user='$REPMGR_USER' dbname='$REPMGR_DB' connect_timeout=5'
 data_directory=${PGDATA}
-
-passfile=${PGDATA}/.pgpass
 
 log_level=INFO
 log_facility=STDERR
