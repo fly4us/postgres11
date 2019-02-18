@@ -1,3 +1,3 @@
 #!/bin/bash
  
-env -u PGPASSWORD PGPASSFILE=${PGDATA}/.pgpass repmgrd -f /etc/repmgr.conf -v
+env -u PGPASSWORD repmgrd -f ~/repmgr.conf -v
