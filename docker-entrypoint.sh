@@ -36,6 +36,7 @@ if [ "$1" = 'postgres' ] && [ "$(id -u)" = '0' ]; then
 
 	mkdir -p /var/run/postgresql
 	chown -R postgres /var/run/postgresql
+	chown -R postgres /etc/postgresql/11/main
 	chmod 775 /var/run/postgresql
 
 	# Create the transaction log directory before initdb is run (below) so the directory is owned by the correct user
@@ -51,6 +52,7 @@ fi
 if [ "$1" = 'postgres' ]; then
 	mkdir -p "$PGDATA"
 	chown -R "$(id -u)" "$PGDATA" 2>/dev/null || :
+	chown -R "$(id -u)" /etc/postgresql/11/main 2>/dev/null || :	
 	chmod 700 "$PGDATA" 2>/dev/null || :	
 
 	# look specifically for PG_VERSION, as it is expected in the DB dir
