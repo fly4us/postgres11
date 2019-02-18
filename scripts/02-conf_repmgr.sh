@@ -2,7 +2,7 @@
  
 set -e
 
-if [ -s ${PGDATA}/repmgr.conf ]; then
+if [ -s /etc/repmgr.conf ]; then
     exit 0
 fi
 
