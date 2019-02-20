@@ -177,4 +177,5 @@ pg_ctl -D "$PGDATA" -w start
 env -u PGPASSWORD PGPASSFILE=/etc/postgresql/11/main/.pgpass repmgrd -f /etc/postgresql/11/main/repmgr.conf -v  2>/dev/null || :
 pg_ctl -D "$PGDATA" -m fast -w stop
 
+export PGPASSFILE=/etc/postgresql/11/main/.pgpass
 exec "$@"
