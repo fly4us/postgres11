@@ -173,9 +173,9 @@ if [ "$1" = 'postgres' ]; then
 fi
 
 echo "~~ starting PostgreSQL+repmgr..." >&2
-# pg_ctl -D "$PGDATA" -w start
-# pg_ctl -D "$PGDATA" -m fast -w stop
-
 export PGPASSFILE=/etc/postgresql/11/main/.pgpass
-exec "$@"
+pg_ctl -D "$PGDATA" -w start
 repmgrd -f /etc/postgresql/11/main/repmgr.conf -v  2>/dev/null || :
+pg_ctl -D "$PGDATA" -m fast -w stop
+sleep 3
+exec "$@"
