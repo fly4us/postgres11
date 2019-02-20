@@ -175,7 +175,7 @@ fi
 echo "~~ starting PostgreSQL+repmgr..." >&2
 export PGPASSFILE=/etc/postgresql/11/main/.pgpass
 pg_ctl -D "$PGDATA" -w start
-repmgrd -f /etc/postgresql/11/main/repmgr.conf -v  2>/dev/null || :
+repmgrd -f /etc/postgresql/11/main/repmgr.conf -v || :
 pg_ctl -D "$PGDATA" -m fast -w stop
 sleep 3
 exec "$@"
